@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
     float xInput;       
     float yInput;
 
+    //reference for Platform generations script
+    public PlatformGenerator platformGenerator;
+
     void Update()
     {
         CheckInput();
@@ -66,12 +69,16 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && grounded)
         {
             body.velocity = new Vector2(body.velocity.x, jumpspeed);
-        }
+
+            platformGenerator.GenerateNextPlatform();
+
+            grounded = false;
+        }  
     }
 
     void CheckGround()
     {
-        grounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
+        grounded = Physics2D.OverlapBox(groundCheck.bounds.center, groundCheck.bounds.size, 0f, groundMask) != null;
     }
 
     void ApplyFriction()

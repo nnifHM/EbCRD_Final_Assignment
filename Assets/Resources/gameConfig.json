@@ -1,0 +1,9 @@
+{
+    "playerJumpSpeed": 6.0,
+    "cameraStartSpeed": 0.1,
+    "cameraSpeedIncreaseRate": 0.01,
+    "maxCameraSpeed": 3.0,
+    "platformVerticalOffset": 1.0,
+    "platformHorizontalRange": 5.0,
+    "minHorizontalDistance": 1.0
+}
