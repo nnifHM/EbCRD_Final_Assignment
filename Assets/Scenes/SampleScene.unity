@@ -207,6 +207,9 @@ MonoBehaviour:
   groundDecay: 0.5
   maxXSpeed: 3
   jumpspeed: 6
+  dashSpeed: 5
+  dashDuration: 0.2
+  dashCooldown: 1
   grounded: 0
   platformGenerator: {fileID: 1554148328}
 --- !u!1 &1095861597

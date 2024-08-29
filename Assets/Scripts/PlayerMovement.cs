@@ -16,6 +16,13 @@ public class PlayerMovement : MonoBehaviour
     public float maxXSpeed;
 
     public float jumpspeed;
+
+    //Dash properties
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
+    private bool isDashing = false;
+     private bool canDash = true;
     
     //variables
     public bool grounded;
@@ -25,10 +32,20 @@ public class PlayerMovement : MonoBehaviour
     //reference for Platform generations script
     public PlatformGenerator platformGenerator;
 
+    void Start()
+    {
+        body = GetComponent<Rigidbody2D>();
+    }
+
     void Update()
     {
         CheckInput();
         HandleJump();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
     }
 
     void FixedUpdate()
@@ -47,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleXMovement()
     {
-        if (Mathf.Abs(xInput) > 0)
+        if (Mathf.Abs(xInput) > 0 && !isDashing)
         {
             //increment velocity by our accelleration, then clamp within max
             float increment = xInput * acceleration;
@@ -85,7 +102,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if(grounded && xInput == 0 && body.velocity.y <= 0)
         {
-        body.velocity *= groundDecay;
+            body.velocity *= groundDecay;
         }
+    }
+
+    IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravitiy = body.gravityScale;
+        body.gravityScale = 0;
+        body.velocity = new Vector2(transform.localScale.x * dashSpeed, 0);
+
+        yield return new WaitForSeconds(dashDuration);
+        
+        body.gravityScale = originalGravitiy;
+        isDashing = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 }
