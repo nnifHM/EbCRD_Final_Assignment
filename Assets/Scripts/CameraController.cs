@@ -10,11 +10,19 @@ public class CameraController : MonoBehaviour
     public float speedIncreaseRate = 0.1f; // Geschwindigkeitserhöhung pro Sekunde
     public float maxScrollSpeed = 5f;  // Maximale Scrollgeschwindigkeit
 
+    public Transform bg1;
+    public Transform bg2;
+    public float size;
+
     private float currentScrollSpeed;
+
+    private bool shouldFollowPlayer = true;
 
     void Start()
     {
         currentScrollSpeed = startScrollSpeed; // Setze die Anfangsgeschwindigkeit
+        
+        size = bg1.GetComponent<BoxCollider2D>().size.y;
     }
 
     void Update()
@@ -26,10 +34,26 @@ public class CameraController : MonoBehaviour
         // Bewege die Kamera nach oben
         transform.position += new Vector3(0, currentScrollSpeed * Time.deltaTime, 0);
 
-        // Optional: Die Kamera folgt der Spielfigur, um sicherzustellen, dass der Spieler nicht zu tief fällt
+        //Die Kamera folgt der Spielfigur, um sicherzustellen, dass der Spieler nicht zu tief fällt
         if (player.position.y > transform.position.y)
         {
             transform.position = new Vector3(transform.position.x, player.position.y, transform.position.z);
         }
+    }
+
+    void FixedUpdate()
+    {
+        if(transform.position.y >= bg2.position.y)
+        {
+            bg1.position = new Vector3(bg1.position.x, bg2.position.y + size, bg1.position.z);
+            SwitchBg();
+        }
+    }
+
+    private void SwitchBg()
+    {
+        Transform temp = bg1;
+        bg1 = bg2;
+        bg2 = temp;
     }
 }
