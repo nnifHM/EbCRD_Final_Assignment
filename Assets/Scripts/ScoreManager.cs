@@ -37,7 +37,7 @@ public class ScoreManager : MonoBehaviour
 
     private void UpdateScoreText(float score)
     {
-        scoreText.text = "Score: " + score.ToString("F2");
+        scoreText.text = "Score: " + score.ToString("F0");
     }
 
     public float GetCurrentScore()

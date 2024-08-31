@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         player.SetActive(false);
         isGameOver = false;
         scoreManager.enabled = false;
-        highscoreText.text = "Bestscore: " + currentHighscore.ToString("F2");
+        highscoreText.text = "Bestscore: " + currentHighscore.ToString("F0");
     }
 
     private void ShowScore()
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI scoreText = deathScreenCanvas.transform.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
 
         float score = scoreManager.GetCurrentScore();
-        scoreText.text = "Punkte: " + score.ToString("F2");
+        scoreText.text = "Punkte: " + score.ToString("F0");
     }
 
     private void LoadHighscore()
