@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,19 +23,25 @@ public class PlayerMovement : MonoBehaviour
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
     private bool isDashing = false;
-     private bool canDash = true;
+    private bool canDash = true;
+
+    public ParticleSystem Particles;
     
     //variables
     public bool grounded;
     float xInput;       
     float yInput;
 
+    private bool hasJumped = false;
     //reference for Platform generations script
     public PlatformGenerator platformGenerator;
+
+    public Animator animator;
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        platformGenerator = FindAnyObjectByType<PlatformGenerator>();
     }
 
     void Update()
@@ -46,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
+
+        animator.SetFloat("Speed", Mathf.Abs(body.velocity.x));
     }
 
     void FixedUpdate()
@@ -90,12 +99,18 @@ public class PlayerMovement : MonoBehaviour
             platformGenerator.GenerateNextPlatform();
 
             grounded = false;
-        }  
+
+            Debug.Log("Setting Bool IsJumping to true");
+            animator.SetBool("IsJumping", true);
+        }
     }
+
 
     void CheckGround()
     {
         grounded = Physics2D.OverlapBox(groundCheck.bounds.center, groundCheck.bounds.size, 0f, groundMask) != null;
+
+        animator.SetBool("IsJumping", !grounded);
     }
 
     void ApplyFriction()
@@ -113,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         float originalGravitiy = body.gravityScale;
         body.gravityScale = 0;
         body.velocity = new Vector2(transform.localScale.x * dashSpeed, 0);
+        Particles.Play();
 
         yield return new WaitForSeconds(dashDuration);
         

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -18,8 +19,12 @@ public class CameraController : MonoBehaviour
 
     private bool shouldFollowPlayer = true;
 
+    private bool gameActive;
+
     void Start()
     {
+        gameActive = false;
+
         currentScrollSpeed = startScrollSpeed; // Setze die Anfangsgeschwindigkeit
         
         size = bg1.GetComponent<BoxCollider2D>().size.y;
@@ -27,6 +32,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (!gameActive) return;
+
         // Erhöhe die Scrollgeschwindigkeit allmählich bis zur Maximalgeschwindigkeit
         currentScrollSpeed += speedIncreaseRate * Time.deltaTime;
         currentScrollSpeed = Mathf.Clamp(currentScrollSpeed, startScrollSpeed, maxScrollSpeed);
@@ -55,5 +62,15 @@ public class CameraController : MonoBehaviour
         Transform temp = bg1;
         bg1 = bg2;
         bg2 = temp;
+    }
+
+    public void StartGame()
+    {
+        gameActive = true;
+    }
+
+    public void StopGame()
+    {
+        gameActive = false;
     }
 }

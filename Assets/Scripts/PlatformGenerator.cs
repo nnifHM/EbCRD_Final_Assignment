@@ -9,6 +9,8 @@ public class PlatformGenerator : MonoBehaviour
     public float horizontalRange = 2f;
     public float minHorizontalDistance = 1.0f;
 
+    public GameObject GroundFloor;
+
     private GameObject lastPlatform;
     private PlatformManager platformManager;
 
@@ -16,7 +18,8 @@ public class PlatformGenerator : MonoBehaviour
     {
         //Findet PlatformManager in der Szene
         platformManager = FindObjectOfType<PlatformManager>();
-        GenerateInitialPlatform();
+        //GenerateInitialPlatform();
+        lastPlatform = GroundFloor.gameObject;
     }
 
     void GenerateInitialPlatform()
