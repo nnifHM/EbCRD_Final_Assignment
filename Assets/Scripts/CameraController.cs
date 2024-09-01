@@ -17,8 +17,6 @@ public class CameraController : MonoBehaviour
 
     private float currentScrollSpeed;
 
-    private bool shouldFollowPlayer = true;
-
     private bool gameActive;
 
     void Start()
@@ -34,14 +32,14 @@ public class CameraController : MonoBehaviour
     {
         if (!gameActive) return;
 
-        // Erhöhe die Scrollgeschwindigkeit allmählich bis zur Maximalgeschwindigkeit
+        // Erhöhe die Scrollgeschwindigkeit bis zur Maximalgeschwindigkeit
         currentScrollSpeed += speedIncreaseRate * Time.deltaTime;
         currentScrollSpeed = Mathf.Clamp(currentScrollSpeed, startScrollSpeed, maxScrollSpeed);
 
         // Bewege die Kamera nach oben
         transform.position += new Vector3(0, currentScrollSpeed * Time.deltaTime, 0);
 
-        //Die Kamera folgt der Spielfigur, um sicherzustellen, dass der Spieler nicht zu tief fällt
+        //Die Kamera folgt der Spielfigur
         if (player.position.y > transform.position.y)
         {
             transform.position = new Vector3(transform.position.x, player.position.y, transform.position.z);

@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     float xInput;       
     float yInput;
 
-    private bool hasJumped = false;
+
     //reference for Platform generations script
     public PlatformGenerator platformGenerator;
 

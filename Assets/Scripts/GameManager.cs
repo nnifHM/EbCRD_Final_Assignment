@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        highscoreFilePath = Path.Combine(Application.dataPath, "Resources/highscore.json");
+        //highscoreFilePath = Path.Combine(Application.dataPath, "Resources/highscore.json");
         LoadHighscore();
         ShowStartScreen();
     }
@@ -95,32 +95,45 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI scoreText = deathScreenCanvas.transform.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
 
         float score = scoreManager.GetCurrentScore();
-        scoreText.text = "Punkte: " + score.ToString("F0");
+        scoreText.text = "Score: " + score.ToString("F0");
     }
 
-    private void LoadHighscore()
+    /*private void LoadHighscore()
     {
         if (File.Exists(highscoreFilePath))
         {
             string json = File.ReadAllText(highscoreFilePath);
             HighscoreData data = JsonUtility.FromJson<HighscoreData>(json);
             currentHighscore = data.highscore;
-            Debug.Log("Highscore geladen: " + currentHighscore);
+            Debug.Log("Highscore loaded: " + currentHighscore);
         }
         else
         {
-            Debug.Log("Keine Highscore-Datei gefunden, setze Standardwert 0!");
+            Debug.Log("Found no File, use default value (0)!");
             currentHighscore = 0;
         }
-    }
+    }*/
 
-    private void SaveHighscore()
+    /*private void SaveHighscore()
     {
         HighscoreData data = new HighscoreData();
         data.highscore = currentHighscore;
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(highscoreFilePath, json);
-        Debug.Log("Highscore gespeichert: " + currentHighscore);
+        Debug.Log("Highscore saved: " + currentHighscore);
+    }*/
+
+    private void LoadHighscore()
+    {
+        currentHighscore = PlayerPrefs.GetFloat("Highscore", 0);
+        Debug.Log("Highscore loaded: " + currentHighscore);
+    }
+
+    private void SaveHighscore()
+    {
+        PlayerPrefs.SetFloat("Highscore", currentHighscore);
+        PlayerPrefs.Save();
+        Debug.Log("Highscore saved: " + currentHighscore);
     }
 
     private bool IsPalyerOutOfCameraView()

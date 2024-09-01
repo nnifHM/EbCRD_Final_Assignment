@@ -1,6 +1,5 @@
 using UnityEngine;
 
-//Das Attribut [System.Serializable] ermöglicht es, die Klasse in der Unity-Umgebung und für das JSON-Parsing zu verwenden.
 [System.Serializable]
 public class GameConfig
 {

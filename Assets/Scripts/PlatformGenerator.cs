@@ -16,17 +16,8 @@ public class PlatformGenerator : MonoBehaviour
 
     void Start()
     {
-        //Findet PlatformManager in der Szene
         platformManager = FindObjectOfType<PlatformManager>();
-        //GenerateInitialPlatform();
         lastPlatform = GroundFloor.gameObject;
-    }
-
-    void GenerateInitialPlatform()
-    {
-        Vector3 startPosition = new Vector3(playerTransform.position.x, playerTransform.position.y - verticalOffset, 0);
-        lastPlatform = Instantiate(platformPrefab, startPosition, Quaternion.identity);
-        platformManager.AddPlatform(lastPlatform);
     }
 
     public void GenerateNextPlatform()
